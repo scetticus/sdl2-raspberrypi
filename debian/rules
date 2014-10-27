@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_makeshlibs:
+override_dh_shlibdeps:
+override_dh_strip:
+	@echo "Skipping makelib targets, we already built everything ourselves"

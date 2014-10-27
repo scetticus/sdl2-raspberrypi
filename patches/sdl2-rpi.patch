@@ -1,0 +1,25 @@
+diff -uNr SDL2-2.0.3/src/atomic/SDL_atomic.c new/src/atomic/SDL_atomic.c
+--- SDL2-2.0.3/src/atomic/SDL_atomic.c	2014-03-15 22:31:43.000000000 -0400
++++ new/src/atomic/SDL_atomic.c	2014-10-20 14:23:41.393919419 -0400
+@@ -216,6 +216,21 @@
+ "   bx lr\n"
+ );
+ #endif
++
++#else
++
++// Provide the memory lock protection on the RaspberryPI for thumb-less cross compilers
++__asm__(
++"   .align 2\n"
++"   .globl _SDL_MemoryBarrierRelease\n"
++"   .globl _SDL_MemoryBarrierAcquire\n"
++"_SDL_MemoryBarrierRelease:\n"
++"_SDL_MemoryBarrierAcquire:\n"
++"   mov r0, #0\n"
++"   mcr p15, 0, r0, c7, c10, 5\n"
++"   bx lr\n"
++);
++
+ #endif
+ 
+ /* vi: set ts=4 sw=4 expandtab: */

@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+#  This script will build a Raspbian root file system on a Intel arch system.
+#  Package sources from the RaspberryPI foundation will also be available
+#
+#  This content is released under the (http://opensource.org/licenses/MIT) MIT License.
+#  See the file LICENSE for details.
+#
+
+set -e
+
+EXTRA_PKGS="less"
+REPO="http://archive.raspbian.org/raspbian"
+APTSOURCES="deb http://archive.raspbian.org/raspbian wheezy main"
+PACKAGES="emacs23-nox,curl"
+ARCH="armhf"
+
+RASPBERRY_REPO="deb http://archive.raspberrypi.org/debian/ wheezy main"
+RASPBERRY_KEY="http://archive.raspberrypi.org/debian/raspberrypi.gpg.key"
+
+if [ "$1" != "" ]; then
+    ROOTFSDIR=$1
+    echo "Bootstraping Raspbian chroot jail"
+    echo "Repository mirror: $REPO"
+    echo "Local Directory: $ROOTFSDIR"
+else
+    echo "Syntax: raspbian-rootfs <new rootfs directory name>"
+    exit 1
+fi
+
+qemu=`which qemu-arm-static || true`
+if [ "$?" != "0" ] || [ ! -f "$qemu" ]; then
+    echo "You need to install QEMU user static and binfmt_support for ARM emulation."
+    exit 1
+fi
+
+echo "Bootstrapping Debian Raspian (first stage)"
+sudo debootstrap --foreign --no-check-gpg --include=$PACKAGES --arch=$ARCH wheezy $ROOTFSDIR $REPO
+
+echo "Preparing on-the-fly ARM emulated chroot jail"
+sudo cp $qemu $ROOTFSDIR/$qemu
+
+echo "Bootstrapping Debian Raspian (ARM stage)"
+sudo chroot $ROOTFSDIR /debootstrap/debootstrap --second-stage
+
+echo "Basic customization: raspbian repositories and regular user account"
+sudo chroot $ROOTFSDIR <<EOF
+echo "$APTSOURCES" > /etc/apt/sources.list
+echo "$RASPBERRY_REPO" >> /etc/apt/sources.list
+curl -L http://archive.raspberrypi.org/debian/raspberrypi.gpg.key | apt-key add -
+EOF
+sudo chroot $ROOTFSDIR apt-get update
+sudo chroot $ROOTFSDIR useradd -m -s /bin/bash raspbian
+
+echo "Finished: Disk usage report and quick chroot test."
+sudo du -sh $ROOTFSDIR
+sudo chroot $ROOTFSDIR/ uname -a
+echo "Done - You are ready to sudo chroot $ROOTFSDIR!"

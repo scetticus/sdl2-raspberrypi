@@ -1,0 +1,3 @@
+./sdl2-raspberrypi/include /opt/sdl2-raspberrypi
+./sdl2-raspberrypi/bin /opt/sdl2-raspberrypi
+./sdl2-raspberrypi/share /opt/sdl2-raspberrypi

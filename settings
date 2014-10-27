@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+#  This is build-sdl.sh settings file
+#
+
+# current version number
+version=`cat version`
+
+# Below are the URLs to the source code of all the SDL packages
+SDL2="http://www.libsdl.org/release/SDL2-2.0.3.tar.gz"
+SDL2_image="https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz"
+SDL2_ttf="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.tar.gz"
+SDL2_mixer="https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.0.tar.gz"
+SDL2_net="https://www.libsdl.org/projects/SDL_net/release/SDL2_net-2.0.0.tar.gz"
+
+# Path where the cross-compiler tools are installed (Linaro or equivalent)
+rpitools=$HOME/rpi-tools
+
+# The path where your ARM chroot jail is installed
+sysroot=/var/local/jails/arm-sdl2
+
+# Path to the RaspberryPI firmware libraries
+rpi_firmwarelibs=$sysroot/opt/vc/lib
+rpi_firmwareincs=$sysroot/opt/vc/include
+
+# number of processors on your system for parallel build
+processors_count=4
+
+# The location inside the chroot jail where the SDL sources will be installed and built
+buildroot=$sysroot/tmp/xbuild
+
+# Where you want the SDL2 binaries to be installed
+install_basename=sdl2-raspberrypi
+install_at=$buildroot/$install_basename
+
+# Parameters you want to pass to SDL2 core library "configure" tool
+sdl_configure_flags="--with-sysroot=$sysroot --host=arm-raspberry-linux-gnueabihf --prefix=$install_at --disable-pulseaudio --disable-esd --enable-sse2"
+generic_configure_flags="--with-sdl-prefix=$install_at --with-sdl-exec-prefix=$install_at --host=arm-raspberry-linux-gnueabihf --prefix=$install_at --disable-sdltest"
+
+# replace kompiler by your prefered cross toolchain.
+kompiler=$rpitools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-gcc

@@ -1,0 +1,16 @@
+Source: sdl2-raspberrypi
+Maintainer: Albert Casals <skarbat@gmail.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.4
+Build-Depends: debhelper (>= 9)
+
+Package: libsdl2-raspberrypi
+Architecture: armhf
+Depends: ${misc:Depends}
+Description: SDL2 Graphics Runtime Library for the RaspberryPI
+
+Package: libsdl2-raspberrypi-dev
+Architecture: armhf
+Depends: ${misc:Depends}, libsdl2-raspberrypi (>=0.44)
+Description: SDL2 Graphics Development Library for the RaspberryPI
