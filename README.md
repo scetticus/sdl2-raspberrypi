@@ -1,4 +1,6 @@
-## SDL2 2.0.3 RASPBERRYPI: Automatable steps build SDL2 on the RaspberryPI
+## SDL2 2.0.3 RASPBERRYPI
+
+Automatable steps build SDL2 for the RaspberryPI
 
 SDL2 is a cross platform grqphics library project located here:
 
