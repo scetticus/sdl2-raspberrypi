@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 9)
 
 Package: libsdl2-raspberrypi
 Architecture: armhf
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, libwebp2, libjpeg8, libtiff5, libpng12-0
 Description: SDL2 Graphics Runtime Library for the RaspberryPI
 
 Package: libsdl2-raspberrypi-dev

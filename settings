@@ -3,9 +3,6 @@
 #  This is build-sdl.sh settings file
 #
 
-# current version number
-version=`cat version`
-
 # Below are the URLs to the source code of all the SDL packages
 SDL2="http://www.libsdl.org/release/SDL2-2.0.3.tar.gz"
 SDL2_image="https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz"

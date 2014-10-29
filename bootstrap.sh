@@ -11,7 +11,7 @@
 #
 
 PKGS="libudev-dev libasound2-dev libdbus-1-dev libraspberrypi0 libraspberrypi-bin libraspberrypi-dev
-libx11-dev libxext-dev libxrandr-dev libfreetype6-dev libjpeg62-dev
+libx11-dev libxext-dev libxrandr-dev libfreetype6-dev libjpeg62-dev libtiff5-dev libwebp-dev
 libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev dh-autoreconf libpulse-dev libpng12-dev"
 
 if [[ `uname -m` != armv* ]]; then

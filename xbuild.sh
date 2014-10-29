@@ -92,7 +92,8 @@ if [ ! -d $sdl2_image_base ]; then
     echo "building SDL2_image-2.0.0..."
     curl -L $SDL2_image | tar zxf -
     pushd  $sdl2_image_base
-    ./configure $generic_configure_flags
+    export LIBPNG_CFLAGS=""
+    ./configure $generic_configure_flags --enable-png-shared=no --enable-jpg-shared=no --enable-tif-shared=no --enable-webp-shared=no
     make -j $processors_count
     make install
     popd
